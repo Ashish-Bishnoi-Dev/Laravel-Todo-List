@@ -19,8 +19,11 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+        @livewireStyles
     </head>
     <body class="antialiased">
        @livewire('todolist')
+
+       @livewireScripts
     </body>
 </html>

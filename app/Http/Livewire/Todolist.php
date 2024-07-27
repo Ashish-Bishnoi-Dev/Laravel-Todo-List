@@ -1,31 +1,47 @@
 <?php
 
 namespace App\Http\Livewire;
-use App\Models\Todo;
 
+use App\Models\Todo;
 use Livewire\Component;
 
 class Todolist extends Component
 {
 
     public $todos;
-    public $task = '';
+    public $task;
 
-    function mount(){
+    public function mount()
+    {
         $this->fetchTodos();
     }
 
-    function fetchTodos(){
+    public function fetchTodos()
+    {
         $this->todos = Todo::all()->reverse();
     }
 
-    function addTodo(){
-        if($this->task != ''){
-            $todo = new Todo();
-            $todo->task = $this->task;
-            $todo->save();
-            $this->task = '';
-        }
+    public function markAsDone(Todo $todo){
+        $todo->status = 'done';
+        $todo->save();
+        $this->fetchTodos();
+    }
+    
+    public function delete(Todo $todo){
+        $todo->delete();
+        $this->fetchTodos();
+    }
+
+    public function addTodo()
+    {
+        $todo = new Todo();
+        $todo->task = $this->task;
+        $todo->save();
+
+        $this->task = '';
+
+        $this->fetchTodos();
+
     }
 
     public function render()
